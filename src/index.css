@@ -1,12 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Cutive Mono", monospace;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #816a57  
 }
+
+
 
 h1,
 h2 {
@@ -16,11 +22,11 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 42px;
   letter-spacing: -1.68px;
   margin: 0;
   @media (max-width: 1024px) {
-    font-size: 36px;
+    font-size: 26px;
     margin: 0;
   }
 }
