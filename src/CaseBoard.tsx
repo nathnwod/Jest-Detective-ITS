@@ -17,7 +17,12 @@ function CaseBoard() {
   return (
     <>
       <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
-      <h2 className='text-lg sm:text-xl'>{title}</h2>
+      <h2
+        className="text-lg sm:text-xl"
+        style={{ fontSynthesisWeight: 'auto', fontWeight: 'bold' }}
+      >
+        {title}
+      </h2>
       <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
       <div className="flex flex-col gap-2">
@@ -91,12 +96,29 @@ function CaseBoard() {
         <div className="DIVIDER h-1 bg-black w-full my-3 sm:my-4" />
         <h1 className='text-xl sm:text-2xl lg:text-3xl'>Your Skills</h1>
 
-        <SkillSection title="Writing Tests" problems={writingProblems} />
+        <SkillSection title="Writing Tests " problems={writingProblems}  />
         <div className='EMPTY-SPACE h-5 w-full' />
         <SkillSection title="Edge Cases" problems={edgeCaseProblems} />
         <div className='EMPTY-SPACE h-5 w-full' />
         <SkillSection title="Reading Tests" problems={readingProblems} />
         <div className='EMPTY-SPACE h-5 w-full' />
+
+        <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
+
+        <h2 className="text-lg sm:text-xl" style={{ fontSynthesisWeight: 'auto', fontWeight: 'bold' }}>Next Case</h2>
+        <div className='EMPTY-SPACE h-5 w-full' />
+        <p className='flex justify-center text-sm sm:text-lg'>
+          <p>⚠ ACTIVE INVESTIGATION ⚠</p>
+        </p>
+
+        <div className='flex justify-center my-6'>
+          <button className="btn">Next Case</button>
+        </div>
+
+        <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
+        
+        
+
         
       </div>
     </div>
