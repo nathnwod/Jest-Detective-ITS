@@ -57,25 +57,27 @@ function CaseBoard() {
   )
 }
 
-  const writingProblems: Problem[] = [
-    { name: "Test()/it()", percentage: 92, rank: "Chief" },
-    { name: "Description String", percentage: 45, rank: "Detective" },
-    { name: "Callback body", percentage: 73, rank: "Detective" },
-    { name: "Expect() with a value", percentage: 28, rank: "Rookie" },
-    { name: "Calling the function", percentage: 60, rank: "Detective" },
-    { name: "ToBe matcher", percentage: 88, rank: "Chief" },
-    { name: "ToBeTruthy/Falsy", percentage: 15, rank: "Rookie" },
-    { name: ".not", percentage: 50, rank: "Detective" },
-    { name: "Choosing a matcher", percentage: 5, rank: "Rookie" },
+ const writingProblems: Problem[] = [
+    { name: "test() / it() call", percentage: 92, rank: "Inspector" },
+    { name: "Description string", percentage: 45, rank: "Detective" },
+    { name: "Callback function body", percentage: 73, rank: "Detective" },
+    { name: "Calling expect() with a value", percentage: 28, rank: "Rookie" },
+    { name: "Calling the function under test", percentage: 60, rank: "Detective" },
+    { name: "Matcher: toBe", percentage: 88, rank: "Inspector" },
+    { name: "Matcher: toBeTruthy / toBeFalsy", percentage: 15, rank: "Rookie" },
+    { name: "Matcher: toContain", percentage: 35, rank: "Detective" },
+    { name: "Negating with .not", percentage: 50, rank: "Detective" },
+    { name: "Choosing the right matcher", percentage: 5, rank: "Rookie" },
   ]
-
+ 
   const edgeCaseProblems: Problem[] = [
-    { name: "Recognizing edge cases", percentage: 67, rank: "Rookie" },
+    { name: "Recognize edge case categories", percentage: 67, rank: "Detective" },
     { name: "One test per edge case", percentage: 0, rank: "Rookie" },
+    { name: "Generate edge cases from signature", percentage: 0, rank: "Rookie" },
   ]
-
-    const readingProblems: Problem[] = [
-    { name: "Break a test into parts", percentage: 40, rank: "Detective" },
+ 
+  const readingProblems: Problem[] = [
+    { name: "Decode a test into plain English", percentage: 40, rank: "Detective" },
   ]
 
   
@@ -108,7 +110,9 @@ function CaseBoard() {
         <h2 className="text-lg sm:text-xl" style={{ fontSynthesisWeight: 'auto', fontWeight: 'bold' }}>Next Case</h2>
         <div className='EMPTY-SPACE h-5 w-full' />
         <p className='flex justify-center text-sm sm:text-lg'>
-          <p>⚠ ACTIVE INVESTIGATION ⚠</p>
+          <div className=' p-2 rounded-[5px] border-1'>
+            <p>⚠ ACTIVE INVESTIGATION ⚠</p>
+          </div>
         </p>
 
         <div className='flex justify-center my-6'>
