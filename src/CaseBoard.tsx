@@ -1,14 +1,33 @@
 import React, { useState } from 'react'
+import type { KC } from './App'
 
-type Problem = {
-  name: string
-  percentage: number
-  rank: string
-}
 
 type SkillSectionProps = {
   title: string
-  problems: Problem[]
+  problems: KC[]
+}
+
+function Header({ showSkillsTitle = true }: { showSkillsTitle?: boolean }) {
+  return (
+    <>
+      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4'>
+        <h1 className='leading-none text-2xl sm:text-3xl lg:text-4xl'>Jest Detective</h1>
+        <div className='flex flex-col sm:text-right'>
+          <h2 className='text-base sm:text-lg'>Rank: Rookie</h2>
+          <h2 className='text-base sm:text-lg'>Cases Solved: 0</h2>
+        </div>
+      </div>
+
+      <div className="DIVIDER h-1 bg-black w-full my-3 sm:my-4" />
+      {showSkillsTitle && <h1 className='text-xl sm:text-2xl lg:text-3xl'>Your Skills</h1>}
+    </>
+  )
+}
+
+function getRank(p: number) {
+  if (p >= 75) return 'Inspector'
+  if (p >= 34) return 'Detective'
+  return 'Rookie'
 }
 
 function SkillSection({ title, problems }: SkillSectionProps) {
@@ -23,12 +42,13 @@ function SkillSection({ title, problems }: SkillSectionProps) {
       </h2>
       <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         {problems.map((problem, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-row items-center gap-3 sm:gap-6 lg:gap-[3.5rem]">
-              <h2 className='flex-1 text-sm sm:text-base lg:text-lg'>{problem.name}</h2>
-              <div className="progress-bar relative h-[18px] sm:h-[20px] flex-1 bg-gray-300 border-2 border-[#1a1a1a] rounded-[3px] hidden min-[700px]:block">
+              <h2 className='flex-1 text-xs sm:text-sm lg:text-base'>{problem.name}</h2>
+
+              <div className="progress-bar relative h-[14px] sm:h-[16px] flex-1 bg-gray-300 border-2 border-[#1a1a1a] rounded-[3px] hidden min-[700px]:block">
                 <div className="h-full bg-[#6b8e5a]" style={{ width: `${problem.percentage}%` }}></div>
                 <span className="absolute inset-0 flex items-center justify-center text-xs sm:text-base lg:text-lg font-bold">
                   {problem.percentage}%
@@ -39,7 +59,8 @@ function SkillSection({ title, problems }: SkillSectionProps) {
                   {problem.percentage}%
                 </span>
               </h2>
-              <h2 className='flex-1 text-right text-sm sm:text-base lg:text-lg'>[{problem.rank}]</h2>
+              <h2 className='flex-1 text-right text-xs sm:text-sm lg:text-base'>[{getRank(problem.percentage)}]</h2>
+
             </div>
             <div className="DIVIDER h-[1px] bg-[#1a1a1a] w-full" />
           </React.Fragment>
@@ -49,7 +70,7 @@ function SkillSection({ title, problems }: SkillSectionProps) {
   )
 }
 
-function NextCaseSection() {
+function NextCaseSection({ onNextCase }: { onNextCase: () => void }) {
   return (
     <div className='mt-auto'>
       <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
@@ -61,7 +82,7 @@ function NextCaseSection() {
         </div>
       </div>
       <div className='flex justify-center my-6'>
-        <button className="btn">Next Case</button>
+        <button className="btn" onClick={onNextCase}>Next Case</button>
       </div>
       <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
     </div>
@@ -70,11 +91,11 @@ function NextCaseSection() {
 
 function PageNav({ page, total, onChange }: { page: number, total: number, onChange: (n: number) => void }) {
   return (
-    <div className='flex justify-end items-center gap-3 text-base mt-2'>
+    <div className='flex justify-end items-center gap-3 text-base'>
       <button
         onClick={() => onChange(Math.max(0, page - 1))}
         disabled={page === 0}
-        className='text-2xl px-2 disabled:opacity-30'
+        className='text-2xl px-1 disabled:opacity-30'
       >
         ←
       </button>
@@ -90,29 +111,10 @@ function PageNav({ page, total, onChange }: { page: number, total: number, onCha
   )
 }
 
-function CaseBoard() {
-  const writingProblems: Problem[] = [
-    { name: "test() / it() call", percentage: 92, rank: "Inspector" },
-    { name: "Description string", percentage: 45, rank: "Detective" },
-    { name: "Callback function body", percentage: 73, rank: "Detective" },
-    { name: "Calling expect() with a value", percentage: 28, rank: "Rookie" },
-    { name: "Calling the function under test", percentage: 60, rank: "Detective" },
-    { name: "Matcher: toBe", percentage: 88, rank: "Inspector" },
-    { name: "Matcher: toBeTruthy / toBeFalsy", percentage: 15, rank: "Rookie" },
-    { name: "Matcher: toContain", percentage: 35, rank: "Detective" },
-    { name: "Negating with .not", percentage: 50, rank: "Detective" },
-    { name: "Choosing the right matcher", percentage: 5, rank: "Rookie" },
-  ]
-
-  const edgeCaseProblems: Problem[] = [
-    { name: "Recognize edge case categories", percentage: 67, rank: "Detective" },
-    { name: "One test per edge case", percentage: 0, rank: "Rookie" },
-    { name: "Generate edge cases from signature", percentage: 0, rank: "Rookie" },
-  ]
-
-  const readingProblems: Problem[] = [
-    { name: "Decode a test into plain English", percentage: 40, rank: "Detective" },
-  ]
+function CaseBoard({ kcs, onNextCase }: { kcs: KC[], onNextCase: () => void }) {
+  const writingProblems = kcs.filter(kc => kc.category === 'writing')
+  const edgeCaseProblems = kcs.filter(kc => kc.category === 'edge')
+  const readingProblems = kcs.filter(kc => kc.category === 'reading')
 
   const [page, setPage] = useState(0)
   const totalPages = 2
@@ -123,45 +125,24 @@ function CaseBoard() {
 
         {page === 0 && (
           <>
-            {/* HEADER */}
-            <div className='flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4'>
-              <h1 className='leading-none text-2xl sm:text-3xl lg:text-4xl'>Jest Detective</h1>
-              <div className='flex flex-col sm:text-right'>
-                <h2 className='text-base sm:text-lg'>Rank: Rookie</h2>
-                <h2 className='text-base sm:text-lg'>Cases Solved: 0</h2>
-              </div>
+            <div>
+              <Header />
+              <SkillSection title="Writing Tests " problems={writingProblems} />
             </div>
-
-            <div className="DIVIDER h-1 bg-black w-full my-3 sm:my-4" />
-            <h1 className='text-xl sm:text-2xl lg:text-3xl'>Your Skills</h1>
-
-            <SkillSection title="Writing Tests " problems={writingProblems} />
-            <div className='h-5 w-full' />
-
-            <NextCaseSection />
+            <NextCaseSection onNextCase={onNextCase} />
           </>
         )}
 
         {page === 1 && (
-  <>
-    {/* HEADER */}
-    <div className='flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4'>
-      <h1 className='leading-none text-2xl sm:text-3xl lg:text-4xl'>Jest Detective</h1>
-      <div className='flex flex-col sm:text-right'>
-        <h2 className='text-base sm:text-lg'>Rank: Rookie</h2>
-        <h2 className='text-base sm:text-lg'>Cases Solved: 0</h2>
-      </div>
-    </div>
+          <>
+            <div>
+              <Header showSkillsTitle={false}/>
 
-    <div className="DIVIDER h-1 bg-black w-full my-3 sm:my-4" />
-    <h1 className='text-xl sm:text-2xl lg:text-3xl'>Your Skills</h1>
-
-    <SkillSection title="Edge Cases" problems={edgeCaseProblems} />
-            <div className='h-5 w-full' />
-            <SkillSection title="Reading Tests" problems={readingProblems} />
-            <div className='h-5 w-full' />
-
-            <NextCaseSection />
+              <SkillSection title="Edge Cases" problems={edgeCaseProblems} />
+              <div className='h-5 w-full' />
+              <SkillSection title="Reading Tests" problems={readingProblems} />
+            </div>
+            <NextCaseSection onNextCase={onNextCase} />
           </>
         )}
 

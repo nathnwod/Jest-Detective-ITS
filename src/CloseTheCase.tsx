@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-function CloseTheCase() {
+function CloseTheCase({ onBack }: { onBack: () => void }) {
     const [userCode, setUserCode] = useState('')
 
     const question = {
@@ -55,9 +55,12 @@ function CloseTheCase() {
 
                 <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
-                <div className='flex justify-center gap-[50%]'>
-                    <button className='btn'>Run Jest</button>
-                    <button className='btn'>Hint</button>
+                <div className='flex justify-between'>
+                    <button className='btn' onClick={onBack}>Back</button>
+                    <div className='flex gap-4'>
+                        <button className='btn'>Run Jest</button>
+                        <button className='btn'>Hint</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 
-function LieDetector() {
+function LieDetector({ onBack }: { onBack: () => void }) {
     const [selected, setSelected] = useState<number | null>(null)
 
     const question = {
@@ -57,6 +57,7 @@ function LieDetector() {
             <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
             <div className='flex justify-center gap-[50%]'>
+                <button className='btn' onClick={onBack}>Back</button>
                 <button className='btn'>Submit</button>
                 <button className='btn'>Hint</button>
             </div>
