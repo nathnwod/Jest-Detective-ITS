@@ -5,6 +5,7 @@ import './CaseBoard.tsx'
 import CaseBoard from './CaseBoard.tsx'
 import ReadTheEvidence from './ReadTheEvidence.tsx'
 import LieDetector from './LieDetector.tsx'
+import FillTheGap from './FillTheGap.tsx'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <CaseBoard></CaseBoard>
       <ReadTheEvidence></ReadTheEvidence>
       <LieDetector></LieDetector>
+      <FillTheGap></FillTheGap>
     </>
   )
 }
