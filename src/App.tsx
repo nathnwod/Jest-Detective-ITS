@@ -4,6 +4,7 @@ import './App.css'
 import './CaseBoard.tsx'
 import CaseBoard from './CaseBoard.tsx'
 import ReadTheEvidence from './ReadTheEvidence.tsx'
+import LieDetector from './LieDetector.tsx'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     <>
       <CaseBoard></CaseBoard>
       <ReadTheEvidence></ReadTheEvidence>
+      <LieDetector></LieDetector>
     </>
   )
 }
