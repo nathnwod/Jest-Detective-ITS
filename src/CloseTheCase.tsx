@@ -1,19 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
+import type { Question } from './questionBank'
 
-function CloseTheCase({ onBack }: { onBack: () => void }) {
+function CloseTheCase({ question, onBack, onGrade }: { question: Question, onBack: () => void, onGrade: (correct: boolean) => void }) {
     const [userCode, setUserCode] = useState('')
 
-    const question = {
-        prompt: 'The suspect: a function that doubles even numbers and leaves odd numbers alone. Write tests that prove it works AND catch at least one edge case.',
-        functionUnderTest: `function doubleEven(n: number): number {
-  return n % 2 === 0 ? n * 2 : n;
-}`,
-        starterCode: `test("doubles an even number", () => {
-  expect(doubleEven(4)).toBe(8);
-});
-
-`
+    const handleSubmit = () => {
+        // fake check: needs at least one expect() and one call to doubleEven
+        const passes = userCode.includes('expect(') && userCode.includes('doubleEven(')
+        onGrade(passes)
     }
 
     return (
@@ -58,7 +53,7 @@ function CloseTheCase({ onBack }: { onBack: () => void }) {
                 <div className='flex justify-between'>
                     <button className='btn' onClick={onBack}>Back</button>
                     <div className='flex gap-4'>
-                        <button className='btn'>Run Jest</button>
+                        <button className='btn' onClick={handleSubmit}>Run Jest</button>
                         <button className='btn'>Hint</button>
                     </div>
                 </div>

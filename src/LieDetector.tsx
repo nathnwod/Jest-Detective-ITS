@@ -1,19 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
+import type { Question } from './questionBank'
 
 
-function LieDetector({ onBack }: { onBack: () => void }) {
+function LieDetector({ question, onBack, onGrade }: { question: Question, onBack: () => void, onGrade: (correct: boolean) => void }) {
     const [selected, setSelected] = useState<number | null>(null)
 
-    const question = {
-        prompt: 'A coworker wrote this test. They say it proves that isEmpty([1,2,3]) returns false. Are they telling the truth?', 
-        code: `test("isEmpty returns false for non-empty array", () => {
-  expect(false).toBe(false);
-});`,
-        options: [
-            {label: 'TRUTH', text: 'This test proves the claim.'},
-            {label: 'LIE', text: 'This test passes but proves nothing.'}
-        ]
+    const handleSubmit = () => {
+        if (selected === null) return
+        onGrade(selected === question.correctIndex)
     }
 
   return (  
@@ -36,7 +31,7 @@ function LieDetector({ onBack }: { onBack: () => void }) {
 
             {/* OPTIONS */}
             <div className='flex flex-col my-4'>
-              {question.options.map((opt, i) => (
+              {(question.options ?? []).map((opt, i) => (
                 <label
                   key={i}
                   className='flex items-center gap-3 p-3 cursor-pointer hover:bg-[#e1c399] rounded-[25px]'
@@ -56,10 +51,12 @@ function LieDetector({ onBack }: { onBack: () => void }) {
             
             <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
-            <div className='flex justify-center gap-[50%]'>
+            <div className='flex justify-between'>
                 <button className='btn' onClick={onBack}>Back</button>
-                <button className='btn'>Submit</button>
-                <button className='btn'>Hint</button>
+                <div className='flex gap-4'>
+                    <button className='btn' onClick={handleSubmit}>Submit</button>
+                    <button className='btn'>Hint</button>
+                </div>
             </div>
              
         </div>

@@ -1,16 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
+import type { Question } from './questionBank'
 
-function FillTheGap({ onBack }: { onBack: () => void }) {
+function FillTheGap({ question, onBack, onGrade }: { question: Question, onBack: () => void, onGrade: (correct: boolean) => void }) {
     const [answer, setAnswer] = useState('')
 
-    const question = {
-        prompt: 'Complete the test so it verifies that getColors() returns an array containing "red".',
-        codeBefore: `test("palette includes red", () => {
-  expect(getColors()).`,
-        codeAfter: `;
-});`,
-        correctAnswer: 'toContain("red")'
+    const handleSubmit = () => {
+        onGrade(answer.trim() === question.correctAnswer)
     }
 
     return (
@@ -43,10 +39,12 @@ function FillTheGap({ onBack }: { onBack: () => void }) {
 
                 <div className="DIVIDER h-0.5 bg-black w-full my-3 sm:my-4" />
 
-                <div className='flex justify-center gap-[50%]'>
+                <div className='flex justify-between '>
                     <button className='btn' onClick={onBack}>Back</button>
-                    <button className='btn'>Submit</button>
-                    <button className='btn'>Hint</button>
+                    <div className='flex gap-4'>
+                        <button className='btn' onClick={handleSubmit}>Submit</button>
+                        <button className='btn'>Hint</button>
+                    </div>
                 </div>
             </div>
         </div>
