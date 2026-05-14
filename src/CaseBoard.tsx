@@ -7,13 +7,13 @@ type SkillSectionProps = {
   problems: KC[]
 }
 
-function Header({ showSkillsTitle = true }: { showSkillsTitle?: boolean }) {
+function Header({ rank, showSkillsTitle = true }: { rank: string, showSkillsTitle?: boolean }) {
   return (
     <>
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4'>
         <h1 className='leading-none text-2xl sm:text-3xl lg:text-4xl'>Jest Detective</h1>
         <div className='flex flex-col sm:text-right'>
-          <h2 className='text-base sm:text-lg'>Rank: Rookie</h2>
+          <h2 className='text-base sm:text-lg'>Rank: {rank}</h2>
           <h2 className='text-base sm:text-lg'>Cases Solved: 0</h2>
         </div>
       </div>
@@ -111,7 +111,7 @@ function PageNav({ page, total, onChange }: { page: number, total: number, onCha
   )
 }
 
-function CaseBoard({ kcs, onNextCase }: { kcs: KC[], onNextCase: () => void }) {
+function CaseBoard({ kcs, rank, onNextCase }: { kcs: KC[], rank: string, onNextCase: () => void }) {
   const writingProblems = kcs.filter(kc => kc.category === 'writing')
   const edgeCaseProblems = kcs.filter(kc => kc.category === 'edge')
   const readingProblems = kcs.filter(kc => kc.category === 'reading')
@@ -126,7 +126,9 @@ function CaseBoard({ kcs, onNextCase }: { kcs: KC[], onNextCase: () => void }) {
         {page === 0 && (
           <>
             <div>
-              <Header />
+              <Header rank={rank} />
+              <Header rank={rank} showSkillsTitle={false} />
+              
               <SkillSection title="Writing Tests " problems={writingProblems} />
             </div>
             <NextCaseSection onNextCase={onNextCase} />
@@ -136,7 +138,8 @@ function CaseBoard({ kcs, onNextCase }: { kcs: KC[], onNextCase: () => void }) {
         {page === 1 && (
           <>
             <div>
-              <Header showSkillsTitle={false}/>
+              <Header rank={rank} />
+              <Header rank={rank} showSkillsTitle={false} />
 
               <SkillSection title="Edge Cases" problems={edgeCaseProblems} />
               <div className='h-5 w-full' />

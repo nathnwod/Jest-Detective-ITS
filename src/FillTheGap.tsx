@@ -30,7 +30,7 @@ function FillTheGap({ question, onBack, onGrade }: { question: Question, onBack:
                             type='text'
                             value={answer}
                             onChange={(e) => setAnswer(e.target.value)}
-                            className='bg-[#e1c399] border-b-2 border-[#1a1a1a] px-2 mx-1 font-mono text-xl outline-none rounded-[2px]'
+                            className='bg-[#e1c399] border-b-2 border-[#1a1a1a] px-2 mx-1 font-mono text-xl outline-none rounded-[5px]'
                             placeholder='Answer here'
                         />
                         {question.codeAfter}
